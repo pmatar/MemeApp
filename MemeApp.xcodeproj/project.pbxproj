@@ -9,21 +9,27 @@
 /* Begin PBXBuildFile section */
 		CF2CA97727FF7D03007CFAF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2CA97627FF7D03007CFAF0 /* AppDelegate.swift */; };
 		CF2CA97927FF7D03007CFAF0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2CA97827FF7D03007CFAF0 /* SceneDelegate.swift */; };
-		CF2CA97B27FF7D03007CFAF0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2CA97A27FF7D03007CFAF0 /* ViewController.swift */; };
 		CF2CA97E27FF7D03007CFAF0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF2CA97C27FF7D03007CFAF0 /* Main.storyboard */; };
 		CF2CA98027FF7D03007CFAF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF2CA97F27FF7D03007CFAF0 /* Assets.xcassets */; };
 		CF2CA98327FF7D03007CFAF0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF2CA98127FF7D03007CFAF0 /* LaunchScreen.storyboard */; };
+		CF2CA99227FF7EBC007CFAF0 /* MemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2CA99127FF7EBC007CFAF0 /* MemeViewController.swift */; };
+		CF2CA99727FF7F87007CFAF0 /* MemesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2CA99627FF7F87007CFAF0 /* MemesData.swift */; };
+		CF2CA99927FF7F97007CFAF0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2CA99827FF7F97007CFAF0 /* NetworkManager.swift */; };
+		CF2CA99B27FF84B1007CFAF0 /* MemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2CA99A27FF84B1007CFAF0 /* MemeCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CF2CA97327FF7D03007CFAF0 /* DuckApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuckApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF2CA97327FF7D03007CFAF0 /* MemeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF2CA97627FF7D03007CFAF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CF2CA97827FF7D03007CFAF0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CF2CA97A27FF7D03007CFAF0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		CF2CA97D27FF7D03007CFAF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CF2CA97F27FF7D03007CFAF0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF2CA98227FF7D03007CFAF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CF2CA98427FF7D03007CFAF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF2CA99127FF7EBC007CFAF0 /* MemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemeViewController.swift; sourceTree = "<group>"; };
+		CF2CA99627FF7F87007CFAF0 /* MemesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemesData.swift; sourceTree = "<group>"; };
+		CF2CA99827FF7F97007CFAF0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		CF2CA99A27FF84B1007CFAF0 /* MemeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemeCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,7 +46,7 @@
 		CF2CA96A27FF7D03007CFAF0 = {
 			isa = PBXGroup;
 			children = (
-				CF2CA97527FF7D03007CFAF0 /* DuckApp */,
+				CF2CA97527FF7D03007CFAF0 /* MemeApp */,
 				CF2CA97427FF7D03007CFAF0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -48,31 +54,74 @@
 		CF2CA97427FF7D03007CFAF0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CF2CA97327FF7D03007CFAF0 /* DuckApp.app */,
+				CF2CA97327FF7D03007CFAF0 /* MemeApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CF2CA97527FF7D03007CFAF0 /* DuckApp */ = {
+		CF2CA97527FF7D03007CFAF0 /* MemeApp */ = {
+			isa = PBXGroup;
+			children = (
+				CF2CA98E27FF7E2E007CFAF0 /* App */,
+				CF2CA99527FF7F56007CFAF0 /* Services */,
+				CF2CA99427FF7F47007CFAF0 /* Models */,
+				CF2CA98F27FF7E53007CFAF0 /* ViewControllers */,
+				CF2CA99027FF7E5F007CFAF0 /* Storyboards */,
+			);
+			path = MemeApp;
+			sourceTree = "<group>";
+		};
+		CF2CA98E27FF7E2E007CFAF0 /* App */ = {
 			isa = PBXGroup;
 			children = (
 				CF2CA97627FF7D03007CFAF0 /* AppDelegate.swift */,
 				CF2CA97827FF7D03007CFAF0 /* SceneDelegate.swift */,
-				CF2CA97A27FF7D03007CFAF0 /* ViewController.swift */,
-				CF2CA97C27FF7D03007CFAF0 /* Main.storyboard */,
 				CF2CA97F27FF7D03007CFAF0 /* Assets.xcassets */,
-				CF2CA98127FF7D03007CFAF0 /* LaunchScreen.storyboard */,
 				CF2CA98427FF7D03007CFAF0 /* Info.plist */,
 			);
-			path = DuckApp;
+			path = App;
+			sourceTree = "<group>";
+		};
+		CF2CA98F27FF7E53007CFAF0 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				CF2CA99127FF7EBC007CFAF0 /* MemeViewController.swift */,
+				CF2CA99A27FF84B1007CFAF0 /* MemeCell.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		CF2CA99027FF7E5F007CFAF0 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				CF2CA98127FF7D03007CFAF0 /* LaunchScreen.storyboard */,
+				CF2CA97C27FF7D03007CFAF0 /* Main.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		CF2CA99427FF7F47007CFAF0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CF2CA99627FF7F87007CFAF0 /* MemesData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CF2CA99527FF7F56007CFAF0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				CF2CA99827FF7F97007CFAF0 /* NetworkManager.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CF2CA97227FF7D03007CFAF0 /* DuckApp */ = {
+		CF2CA97227FF7D03007CFAF0 /* MemeApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CF2CA98727FF7D03007CFAF0 /* Build configuration list for PBXNativeTarget "DuckApp" */;
+			buildConfigurationList = CF2CA98727FF7D03007CFAF0 /* Build configuration list for PBXNativeTarget "MemeApp" */;
 			buildPhases = (
 				CF2CA96F27FF7D03007CFAF0 /* Sources */,
 				CF2CA97027FF7D03007CFAF0 /* Frameworks */,
@@ -82,9 +131,9 @@
 			);
 			dependencies = (
 			);
-			name = DuckApp;
+			name = MemeApp;
 			productName = DuckApp;
-			productReference = CF2CA97327FF7D03007CFAF0 /* DuckApp.app */;
+			productReference = CF2CA97327FF7D03007CFAF0 /* MemeApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -102,7 +151,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CF2CA96E27FF7D03007CFAF0 /* Build configuration list for PBXProject "DuckApp" */;
+			buildConfigurationList = CF2CA96E27FF7D03007CFAF0 /* Build configuration list for PBXProject "MemeApp" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -115,7 +164,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CF2CA97227FF7D03007CFAF0 /* DuckApp */,
+				CF2CA97227FF7D03007CFAF0 /* MemeApp */,
 			);
 		};
 /* End PBXProject section */
@@ -138,9 +187,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF2CA97B27FF7D03007CFAF0 /* ViewController.swift in Sources */,
+				CF2CA99B27FF84B1007CFAF0 /* MemeCell.swift in Sources */,
+				CF2CA99727FF7F87007CFAF0 /* MemesData.swift in Sources */,
 				CF2CA97727FF7D03007CFAF0 /* AppDelegate.swift in Sources */,
+				CF2CA99927FF7F97007CFAF0 /* NetworkManager.swift in Sources */,
 				CF2CA97927FF7D03007CFAF0 /* SceneDelegate.swift in Sources */,
+				CF2CA99227FF7EBC007CFAF0 /* MemeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +341,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L7KZPDRX49;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = DuckApp/Info.plist;
+				INFOPLIST_FILE = MemeApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -300,11 +352,11 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = pmatar.DuckApp;
+				PRODUCT_BUNDLE_IDENTIFIER = pmatar.MemeApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -317,7 +369,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L7KZPDRX49;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = DuckApp/Info.plist;
+				INFOPLIST_FILE = MemeApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -328,18 +380,18 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = pmatar.DuckApp;
+				PRODUCT_BUNDLE_IDENTIFIER = pmatar.MemeApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CF2CA96E27FF7D03007CFAF0 /* Build configuration list for PBXProject "DuckApp" */ = {
+		CF2CA96E27FF7D03007CFAF0 /* Build configuration list for PBXProject "MemeApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CF2CA98527FF7D03007CFAF0 /* Debug */,
@@ -348,7 +400,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CF2CA98727FF7D03007CFAF0 /* Build configuration list for PBXNativeTarget "DuckApp" */ = {
+		CF2CA98727FF7D03007CFAF0 /* Build configuration list for PBXNativeTarget "MemeApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CF2CA98827FF7D03007CFAF0 /* Debug */,

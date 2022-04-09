@@ -7,13 +7,9 @@
 
 
 
-struct APIData: Decodable {
-    let data: MemesData
-}
-
 struct MemesData: Decodable {
-        let memes: [Meme]
-    }
+    let memes: [Meme]
+}
 
 struct Meme: Decodable {
     let url: String

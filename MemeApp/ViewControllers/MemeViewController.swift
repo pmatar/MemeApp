@@ -9,8 +9,6 @@ import UIKit
 
 class MemeViewController: UICollectionViewController {
     
-    let net = NetworkManager.shared
-    
     private var memes: [Meme] = [] {
         didSet{
             DispatchQueue.main.async {
@@ -20,43 +18,59 @@ class MemeViewController: UICollectionViewController {
     }
     
     override func viewDidLoad() {
-        net.fetchMemes() { memes in
-            self.memes = memes
-        }
-        
         super.viewDidLoad()
+        
+        NetworkManager.shared.fetchMemes(times: 20) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case let .success(memes):
+                self.memes = memes
+            case let .failure(error):
+                print(error.rawValue)
+            }
+        }
     }
     
     // MARK: -UICollectionViewDataSource
-
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return memes.count
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "memeCell",
-                                                          for: indexPath) as? MemeCell
-        else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "memeCell", for: indexPath) as? MemeCell else {
+            return UICollectionViewCell()
+        }
+        
+        cell.activityIndicator.startAnimating()
+        cell.activityIndicator.hidesWhenStopped = true
+        cell.memeImageView.image = nil
+        cell.tag = indexPath.item
         
         let meme = memes[indexPath.item]
         
-        net.fetchImage(meme) { image in
-            DispatchQueue.main.async {
-                cell.configure(with: image)
+        NetworkManager.shared.fetchImage(from: meme) { result in
+            switch result {
+            case let .success(image):
+                DispatchQueue.main.async {
+                    if cell.tag == indexPath.item {
+                        cell.configure(with: image)
+                    }
+                }
+            case let .failure(error):
+                print(error.rawValue)
             }
         }
-        cell.activityIndicator.startAnimating()
-        cell.activityIndicator.hidesWhenStopped = true
         return cell
     }
-    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension MemeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: UIScreen.main.bounds.width/2.2, height: 200)
+        CGSize(width: UIScreen.main.bounds.width - 40, height: 450)
     }
 }
 

@@ -6,43 +6,57 @@
 //
 
 import UIKit
+
 class NetworkManager {
     static let shared = NetworkManager()
     
-    func fetchMemes(completionHandler: @escaping ([Meme]) -> Void) {
-        guard let url = URL(string: DuckApi.getMemes.rawValue) else { return }
+    private let baseURL = "https://meme-api.herokuapp.com/gimme/"
+    
+    func fetchMemes(times count: Int, completion: @escaping (Result<[Meme], NetworkError>) -> Void) {
+        let endpoint = baseURL + "\(count)"
+        
+        guard let url = URL(string: endpoint) else {
+            completion(.failure(.missingURL))
+            return
+        }
         
         URLSession.shared.dataTask(with: url) { data, _, error in
-            guard let data = data else {
-                print(error?.localizedDescription ?? "no")
+            guard let data = data, error == nil else {
+                completion(.failure(.noData))
                 return
             }
+            
             do {
-                let memeData = try JSONDecoder().decode(APIData.self, from: data)
-                completionHandler(memeData.data.memes)
-            } catch let error {
-                print(error.localizedDescription)
+                let memeData = try JSONDecoder().decode(MemesData.self, from: data)
+                completion(.success(memeData.memes))
+            } catch {
+                completion(.failure(.encodingFailed))
             }
         }.resume()
     }
     
-    func fetchImage(_ model: Meme, completionHandler: @escaping (UIImage) -> Void) {
-        guard let url = URL(string: model.url) else { return }
+    func fetchImage(from model: Meme, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+        guard let url = URL(string: model.url) else {
+            completion(.failure(.missingURL))
+            return }
+        
         URLSession.shared.dataTask(with: url) { data, _, error in
-            guard let data = data else {
-                print(error?.localizedDescription ?? "No error description")
+            if let data = data, error == nil {
+                completion(.success(data))
+            } else {
+                completion(.failure(.noData))
                 return
             }
-            guard let image = UIImage(data: data) else { return }
-            completionHandler(image)
         }.resume()
     }
     
     private init() {}
 }
 
-enum DuckApi: String {
-    case randomJSONImage = "https://random-d.uk/api/random"
-    case randomImage = "https://random-d.uk/api/randomimg"
-    case getMemes = "https://api.imgflip.com/get_memes"
+extension NetworkManager {
+    enum NetworkError : String, Error {
+        case noData = "Data is nil."
+        case encodingFailed = "Data encoding failed."
+        case missingURL = "URL is nil."
+    }
 }

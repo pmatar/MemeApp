@@ -9,10 +9,14 @@ import UIKit
 
 class MemeViewController: UICollectionViewController {
     
+    private var refreshBarButton: UIBarButtonItem!
+    private var refreshBarButtonActivityIndicator: UIBarButtonItem!
+    
     private var memes: [Meme] = [] {
         didSet{
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
+                self.changeBarButton()
             }
         }
     }
@@ -20,8 +24,8 @@ class MemeViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getMemes()
-        let color = collectionView.backgroundColor
-        navigationController?.navigationBar.barTintColor = color
+        setupBarButtons()
+        setupUI()
     }
     
     // MARK: -UICollectionViewDataSource
@@ -56,7 +60,9 @@ class MemeViewController: UICollectionViewController {
         }
         return cell
     }
-    @IBAction func refreshTapped(_ sender: UIBarButtonItem) {
+    
+    @objc func refreshTapped() {
+        navigationItem.rightBarButtonItem = refreshBarButtonActivityIndicator
         getMemes()
     }
 }
@@ -73,7 +79,7 @@ extension MemeViewController: UICollectionViewDelegateFlowLayout {
 
 extension MemeViewController {
     private func getMemes() {
-        NetworkManager.shared.fetchMemes(times: 20) { [weak self] result in
+        NetworkManager.shared.fetchMemes(times: 25) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
@@ -83,5 +89,25 @@ extension MemeViewController {
                 print(error.rawValue)
             }
         }
+    }
+    
+    private func changeBarButton() {
+        if navigationItem.rightBarButtonItem == refreshBarButtonActivityIndicator {
+            navigationItem.rightBarButtonItem = refreshBarButton
+        }
+    }
+    
+    private func setupUI(){
+        navigationController?.navigationBar.barTintColor = collectionView.backgroundColor
+        navigationItem.rightBarButtonItem = refreshBarButton
+    }
+    
+    private func setupBarButtons(){
+        let activityIndicator = UIActivityIndicatorView.init(style: .medium)
+        activityIndicator.startAnimating()
+        refreshBarButtonActivityIndicator = UIBarButtonItem(customView: activityIndicator)
+        
+        refreshBarButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshTapped))
+        refreshBarButton.tintColor = .black
     }
 }

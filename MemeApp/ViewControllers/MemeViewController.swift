@@ -18,18 +18,8 @@ class MemeViewController: UICollectionViewController {
     }
     
     override func viewDidLoad() {
+        getMemes()
         super.viewDidLoad()
-        
-        NetworkManager.shared.fetchMemes(times: 20) { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case let .success(memes):
-                self.memes = memes
-            case let .failure(error):
-                print(error.rawValue)
-            }
-        }
     }
     
     // MARK: -UICollectionViewDataSource
@@ -64,6 +54,9 @@ class MemeViewController: UICollectionViewController {
         }
         return cell
     }
+    @IBAction func refreshTapped(_ sender: UIBarButtonItem) {
+        getMemes()
+    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -74,3 +67,19 @@ extension MemeViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - Private Methods
+
+extension MemeViewController {
+    private func getMemes() {
+        NetworkManager.shared.fetchMemes(times: 20) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case let .success(memes):
+                self.memes = memes
+            case let .failure(error):
+                print(error.rawValue)
+            }
+        }
+    }
+}

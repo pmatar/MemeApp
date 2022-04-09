@@ -14,7 +14,7 @@
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="IFK-Aq-p5q">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.98510909515317646" green="0.91488516328335701" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="1" green="0.80974173116812032" blue="0.45627073892173453" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="100" minimumInteritemSpacing="100" id="nKq-2X-GHC">
                             <size key="itemSize" width="250" height="400"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -56,7 +56,14 @@
                             <outlet property="delegate" destination="Exw-7t-qkj" id="WR3-eg-ipx"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="Meme View Controller" id="1eb-va-u1p"/>
+                    <navigationItem key="navigationItem" title="Meme View Controller" id="1eb-va-u1p">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="2kJ-Lg-LAs">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="refreshTapped:" destination="Exw-7t-qkj" id="e2j-bh-tL2"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2c4-L9-fQO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

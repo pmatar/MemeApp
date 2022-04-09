@@ -62,6 +62,7 @@
 		CF2CA97527FF7D03007CFAF0 /* MemeApp */ = {
 			isa = PBXGroup;
 			children = (
+				CF2CA99C28020F11007CFAF0 /* Resources */,
 				CF2CA98E27FF7E2E007CFAF0 /* App */,
 				CF2CA99527FF7F56007CFAF0 /* Services */,
 				CF2CA99427FF7F47007CFAF0 /* Models */,
@@ -76,7 +77,6 @@
 			children = (
 				CF2CA97627FF7D03007CFAF0 /* AppDelegate.swift */,
 				CF2CA97827FF7D03007CFAF0 /* SceneDelegate.swift */,
-				CF2CA97F27FF7D03007CFAF0 /* Assets.xcassets */,
 				CF2CA98427FF7D03007CFAF0 /* Info.plist */,
 			);
 			path = App;
@@ -114,6 +114,14 @@
 				CF2CA99827FF7F97007CFAF0 /* NetworkManager.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		CF2CA99C28020F11007CFAF0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CF2CA97F27FF7D03007CFAF0 /* Assets.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

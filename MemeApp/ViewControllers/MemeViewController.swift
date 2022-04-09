@@ -63,7 +63,7 @@ class MemeViewController: UICollectionViewController {
 
 extension MemeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: UIScreen.main.bounds.width - 40, height: 350)
+        CGSize(width: UIScreen.main.bounds.width - 40, height: 450)
     }
 }
 

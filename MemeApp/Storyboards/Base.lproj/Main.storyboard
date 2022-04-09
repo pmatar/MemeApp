@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Random Reddit Meme-->
+        <!--Random Reddit Memes-->
         <scene sceneID="6cE-DX-M4J">
             <objects>
                 <collectionViewController id="Exw-7t-qkj" customClass="MemeViewController" customModule="MemeApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -56,7 +56,7 @@
                             <outlet property="delegate" destination="Exw-7t-qkj" id="WR3-eg-ipx"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="Random Reddit Meme" id="1eb-va-u1p"/>
+                    <navigationItem key="navigationItem" title="Random Reddit Memes" id="1eb-va-u1p"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2c4-L9-fQO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -16,13 +16,13 @@ class NetworkManager {
         let endpoint = baseURL + "\(count)"
         
         guard let url = URL(string: endpoint) else {
-            completion(.failure(.missingURL))
+            completion(.failure(.missingApiURL))
             return
         }
         
         URLSession.shared.dataTask(with: url) { data, _, error in
             guard let data = data, error == nil else {
-                completion(.failure(.noData))
+                completion(.failure(.noJSONData))
                 return
             }
             
@@ -37,14 +37,14 @@ class NetworkManager {
     
     func fetchImage(from model: Meme, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let url = URL(string: model.url) else {
-            completion(.failure(.missingURL))
+            completion(.failure(.missingImageURL))
             return }
         
         URLSession.shared.dataTask(with: url) { data, _, error in
             if let data = data, error == nil {
                 completion(.success(data))
             } else {
-                completion(.failure(.noData))
+                completion(.failure(.noImageData))
                 return
             }
         }.resume()
@@ -55,8 +55,10 @@ class NetworkManager {
 
 extension NetworkManager {
     enum NetworkError : String, Error {
-        case noData = "Data is nil."
+        case noJSONData = "JSON Data is nil."
+        case noImageData = "Image Data is nil."
         case encodingFailed = "Data encoding failed."
-        case missingURL = "URL is nil."
+        case missingApiURL = "API URL is nil."
+        case missingImageURL = "Image URL is nil."
     }
 }

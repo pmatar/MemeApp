@@ -20,6 +20,8 @@ class MemeViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getMemes()
+        let color = collectionView.backgroundColor
+        navigationController?.navigationBar.barTintColor = color
     }
     
     // MARK: -UICollectionViewDataSource

@@ -101,6 +101,7 @@ extension MemeViewController {
     private func setupUI(){
         navigationController?.navigationBar.barTintColor = collectionView.backgroundColor
         navigationItem.rightBarButtonItem = refreshBarButton
+        navigationController?.overrideUserInterfaceStyle = .light
     }
     
     private func setupBarButtons(){

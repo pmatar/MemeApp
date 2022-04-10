@@ -71,13 +71,13 @@ class MemeViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // image to share
-        let selectedCell = collectionView.cellForItem(at: indexPath) as! MemeCell
-        let image = selectedCell.memeImageView.image
+        guard let selectedCell = collectionView.cellForItem(at: indexPath) as? MemeCell else { return }
+        guard let image = selectedCell.memeImageView.image else { return }
         
         // set up activity view controller
-        let imageToShare = [ image! ]
+        let imageToShare = [image]
         let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
-        
+        activityViewController.popoverPresentationController?.sourceView = self.view
         self.present(activityViewController, animated: true, completion: nil)
     }
 }

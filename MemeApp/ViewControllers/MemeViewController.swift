@@ -14,10 +14,8 @@ class MemeViewController: UICollectionViewController {
     
     private var memes: [Meme] = [] {
         didSet{
-            DispatchQueue.main.async {
                 self.collectionView.reloadData()
                 self.changeBarButton()
-            }
         }
     }
     
@@ -49,11 +47,9 @@ class MemeViewController: UICollectionViewController {
         NetworkManager.shared.fetchImage(from: meme) { result in
             switch result {
             case let .success(image):
-                DispatchQueue.main.async {
                     if cell.tag == indexPath.item {
                         cell.configure(with: image)
                     }
-                }
             case let .failure(error):
                 print(error.rawValue)
             }

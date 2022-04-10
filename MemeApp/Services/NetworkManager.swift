@@ -12,6 +12,8 @@ class NetworkManager {
     
     private let baseURL = "https://meme-api.herokuapp.com/gimme/"
     
+    private init() {}
+
     func fetchMemes(times count: Int, completion: @escaping (Result<[Meme], NetworkError>) -> Void) {
         let endpoint = baseURL + "\(count)"
         
@@ -28,7 +30,9 @@ class NetworkManager {
             
             do {
                 let memeData = try JSONDecoder().decode(MemesData.self, from: data)
-                completion(.success(memeData.memes))
+                DispatchQueue.main.async {
+                    completion(.success(memeData.memes))
+                }
             } catch {
                 completion(.failure(.encodingFailed))
             }
@@ -42,7 +46,9 @@ class NetworkManager {
         
         URLSession.shared.dataTask(with: url) { data, _, error in
             if let data = data, error == nil {
-                completion(.success(data))
+                DispatchQueue.main.async {
+                    completion(.success(data))
+                }
             } else {
                 completion(.failure(.noImageData))
                 return
@@ -50,7 +56,6 @@ class NetworkManager {
         }.resume()
     }
     
-    private init() {}
 }
 
 extension NetworkManager {

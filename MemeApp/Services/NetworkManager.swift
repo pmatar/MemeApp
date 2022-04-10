@@ -12,8 +12,10 @@ class NetworkManager {
     
     private let baseURL = "https://meme-api.herokuapp.com/gimme/"
     
+    private var cache = NSCache<NSString, NSData>()
+    
     private init() {}
-
+    
     func fetchMemes(times count: Int, completion: @escaping (Result<[Meme], NetworkError>) -> Void) {
         let endpoint = baseURL + "\(count)"
         
@@ -30,32 +32,39 @@ class NetworkManager {
             
             do {
                 let memeData = try JSONDecoder().decode(MemesData.self, from: data)
-                DispatchQueue.main.async {
-                    completion(.success(memeData.memes))
-                }
+                completion(.success(memeData.memes))
             } catch {
                 completion(.failure(.encodingFailed))
             }
         }.resume()
     }
     
-    func fetchImage(from model: Meme, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+    func downloadImage(from model: Meme, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         guard let url = URL(string: model.url) else {
             completion(.failure(.missingImageURL))
             return }
         
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            if let data = data, error == nil {
-                DispatchQueue.main.async {
-                    completion(.success(data))
-                }
-            } else {
-                completion(.failure(.noImageData))
+        if let cachedImage = cache.object(forKey: url.absoluteString as NSString){
+            print("using cached images")
+            completion(.success(cachedImage as Data))
+            return
+        }
+        
+        URLSession.shared.downloadTask(with: url) { imageURL, _, error in
+            guard let imageURL = imageURL, error == nil else {
+                completion(.failure(.missingImageURL))
                 return
+            }
+            
+            do {
+                let data = try Data(contentsOf: imageURL)
+                self.cache.setObject(data as NSData, forKey: url.absoluteString as NSString)
+                completion(.success(data))
+            } catch {
+                completion(.failure(.encodingFailed))
             }
         }.resume()
     }
-    
 }
 
 extension NetworkManager {

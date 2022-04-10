@@ -14,8 +14,10 @@ class MemeViewController: UICollectionViewController {
     
     private var memes: [Meme] = [] {
         didSet{
-            collectionView.reloadData()
-            changeBarButton()
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+                self.changeBarButton()
+            }
         }
     }
     
@@ -37,19 +39,22 @@ class MemeViewController: UICollectionViewController {
             return UICollectionViewCell()
         }
         
+        let meme = memes[indexPath.item]
+        
+        let representedIdentifier = meme.title
+        cell.representedIdentifier = representedIdentifier
         cell.activityIndicator.startAnimating()
         cell.activityIndicator.hidesWhenStopped = true
         cell.memeImageView.image = nil
-        cell.tag = indexPath.item
         
-        let meme = memes[indexPath.item]
-        
-        NetworkManager.shared.fetchImage(from: meme) { result in
+        NetworkManager.shared.downloadImage(from: meme) { result in
             switch result {
             case let .success(image):
-                    if cell.tag == indexPath.item {
+                DispatchQueue.main.async {
+                if (cell.representedIdentifier == representedIdentifier) {
                         cell.configure(with: image)
                     }
+                }
             case let .failure(error):
                 print(error.rawValue)
             }

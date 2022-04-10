@@ -11,6 +11,8 @@ class MemeCell: UICollectionViewCell {
     @IBOutlet var memeImageView: UIImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
+    var representedIdentifier: String = ""
+    
     func configure(with data: Data) {
         memeImageView.image = UIImage(data: data)
         activityIndicator.stopAnimating()

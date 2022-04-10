@@ -45,7 +45,6 @@ class NetworkManager {
             return }
         
         if let cachedImage = cache.object(forKey: url.absoluteString as NSString){
-            print("using cached images")
             completion(.success(cachedImage as Data))
             return
         }

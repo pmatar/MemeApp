@@ -46,12 +46,13 @@ class MemeViewController: UICollectionViewController {
         cell.activityIndicator.startAnimating()
         cell.activityIndicator.hidesWhenStopped = true
         cell.memeImageView.image = nil
+        cell.tag = indexPath.item
         
         NetworkManager.shared.downloadImage(from: meme) { result in
             switch result {
             case let .success(image):
                 DispatchQueue.main.async {
-                if (cell.representedIdentifier == representedIdentifier) {
+                    if (cell.representedIdentifier == representedIdentifier) && (cell.tag == indexPath.item) {
                         cell.configure(with: image)
                     }
                 }
@@ -80,7 +81,7 @@ extension MemeViewController: UICollectionViewDelegateFlowLayout {
 
 extension MemeViewController {
     private func getMemes() {
-        NetworkManager.shared.fetchMemes(times: 25) { [weak self] result in
+        NetworkManager.shared.fetchMemes(times: 15) { [weak self] result in
             guard let self = self else { return }
             
             switch result {

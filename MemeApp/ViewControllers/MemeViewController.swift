@@ -14,8 +14,8 @@ class MemeViewController: UICollectionViewController {
     
     private var memes: [Meme] = [] {
         didSet{
-                self.collectionView.reloadData()
-                self.changeBarButton()
+            collectionView.reloadData()
+            changeBarButton()
         }
     }
     

@@ -28,6 +28,10 @@ class MemeViewController: UICollectionViewController {
         setupUI()
     }
     
+    @objc func refreshTapped() {
+        navigationItem.rightBarButtonItem = refreshBarButtonActivityIndicator
+        getMemes()
+    }
     // MARK: -UICollectionViewDataSource
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -63,9 +67,18 @@ class MemeViewController: UICollectionViewController {
         return cell
     }
     
-    @objc func refreshTapped() {
-        navigationItem.rightBarButtonItem = refreshBarButtonActivityIndicator
-        getMemes()
+    // MARK: - UICollectionViewDelegate
+
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // image to share
+        let selectedCell = collectionView.cellForItem(at: indexPath) as! MemeCell
+        let image = selectedCell.memeImageView.image
+        
+        // set up activity view controller
+        let imageToShare = [ image! ]
+        let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
+        
+        self.present(activityViewController, animated: true, completion: nil)
     }
 }
 

@@ -50,7 +50,7 @@ class NetworkManager {
             return
         }
         
-        guard let url = URL(string: previewURL) else {
+        guard let url = URL(string: model.url) else {
             completion(.failure(.missingImageURL))
             return }
         

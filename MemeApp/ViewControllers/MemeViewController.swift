@@ -31,6 +31,7 @@ class MemeViewController: UICollectionViewController {
     @objc func refreshTapped() {
         navigationItem.rightBarButtonItem = refreshBarButtonActivityIndicator
         getMemes()
+        collectionView.setContentOffset(CGPoint.zero, animated:true)
     }
     // MARK: -UICollectionViewDataSource
     

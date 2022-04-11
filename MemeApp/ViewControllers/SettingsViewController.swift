@@ -15,6 +15,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     var selectedSubreddit: String?
     private var totalCount: [String] = []
     private var totalSubreddits: [String] = []
+    private var selectedCountRow = 0
     
     weak var delegate: SettingsViewControllerDelegate?
     
@@ -25,7 +26,9 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         memePicker.dataSource = self
         subredditPicker.delegate = self
         subredditPicker.dataSource = self
-                
+        
+        selectedCountRow = (Int(selectedCount ?? "1") ?? 1) - 1
+        
         totalCount = Array(1...50).map { String($0) }
         totalSubreddits = ["memes", "dankmemes", "me_irl", "wholesomememes", "default"]
     }
@@ -73,8 +76,14 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         switch pickerView {
         case memePicker:
             selectedCount = totalCount[row]
+            selectedCountRow = row
         default:
             selectedSubreddit = totalSubreddits[row]
+            if row == 4 {
+                memePicker.selectRow(49, inComponent: 0, animated: true)
+            } else {
+                memePicker.selectRow(selectedCountRow, inComponent: 0, animated: true)
+            }
         }
     }
     

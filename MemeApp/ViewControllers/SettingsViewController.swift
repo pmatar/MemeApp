@@ -11,10 +11,10 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet weak var memePicker: UIPickerView!
     @IBOutlet weak var subredditPicker: UIPickerView!
     
-    private var selectedCount: String?
-    private var selectedSubreddit: String?
-    private var count: [String] = []
-    private var subreddit: [String] = []
+    var selectedCount: String?
+    var selectedSubreddit: String?
+    private var totalCount: [String] = []
+    private var totalSubreddits: [String] = []
     
     weak var delegate: SettingsViewControllerDelegate?
     
@@ -25,15 +25,17 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         memePicker.dataSource = self
         subredditPicker.delegate = self
         subredditPicker.dataSource = self
-        
-        memePicker.selectRow(0, inComponent: 0, animated: false)
-        subredditPicker.selectRow(0, inComponent: 0, animated: false)
-        
-        count = Array(1...50).map { String($0) }
-        subreddit = ["memes", "dankmemes", "me_irl", "wholesomememes", "default"]
-        
-        selectedCount = count[memePicker.selectedRow(inComponent: 0)]
-        selectedSubreddit = subreddit[subredditPicker.selectedRow(inComponent: 0)]
+                
+        totalCount = Array(1...50).map { String($0) }
+        totalSubreddits = ["memes", "dankmemes", "me_irl", "wholesomememes", "default"]
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let defaultCount = selectedCount ?? "50"
+        let defaultSubreddit = selectedSubreddit ?? "default"
+        memePicker.selectRow(totalCount.firstIndex(of: defaultCount) ?? 49, inComponent: 0, animated: false)
+        subredditPicker.selectRow(totalSubreddits.firstIndex(of: defaultSubreddit) ?? 0, inComponent: 0, animated: true)
     }
     
     @IBAction func savePuttonPressed() {
@@ -51,22 +53,28 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch pickerView {
-        case memePicker: return count.count
-        default: return subreddit.count
+        case memePicker:
+            return totalCount.count
+        default:
+            return totalSubreddits.count
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch pickerView {
-        case memePicker: return count[row]
-        default: return subreddit[row]
+        case memePicker:
+            return totalCount[row]
+        default:
+            return totalSubreddits[row]
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView {
-        case memePicker: selectedCount = count[row]
-        default: selectedSubreddit = subreddit[row]
+        case memePicker:
+            selectedCount = totalCount[row]
+        default:
+            selectedSubreddit = totalSubreddits[row]
         }
     }
     

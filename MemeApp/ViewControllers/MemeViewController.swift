@@ -7,11 +7,27 @@
 
 import UIKit
 
+protocol SettingsViewControllerDelegate: AnyObject {
+    func setup(count: String, subreddit: String)
+}
+
 class MemeViewController: UICollectionViewController {
     
+    @IBOutlet weak var settingsBarButton: UIBarButtonItem!
     private var refreshBarButton: UIBarButtonItem!
     private var refreshBarButtonActivityIndicator: UIBarButtonItem!
     
+    private var count: String? {
+        didSet{
+        getMemes()
+        }
+    }
+    private var subreddit: String? {
+        didSet{
+        getMemes()
+        }
+    }
+
     private var memes: [Meme] = [] {
         didSet{
             DispatchQueue.main.async {
@@ -28,11 +44,17 @@ class MemeViewController: UICollectionViewController {
         setupUI()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let settingsVC = segue.destination as? SettingsViewController else { return }
+        settingsVC.delegate = self
+    }
+    
     @objc func refreshTapped() {
         navigationItem.rightBarButtonItem = refreshBarButtonActivityIndicator
         getMemes()
         collectionView.setContentOffset(CGPoint.zero, animated:true)
     }
+        
     // MARK: -UICollectionViewDataSource
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -95,7 +117,7 @@ extension MemeViewController: UICollectionViewDelegateFlowLayout {
 
 extension MemeViewController {
     private func getMemes() {
-        NetworkManager.shared.fetchMemes(times: 15) { [weak self] result in
+        NetworkManager.shared.fetchMemes(times: count, from: subreddit) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
@@ -123,8 +145,16 @@ extension MemeViewController {
         let activityIndicator = UIActivityIndicatorView.init(style: .medium)
         activityIndicator.startAnimating()
         refreshBarButtonActivityIndicator = UIBarButtonItem(customView: activityIndicator)
-        
         refreshBarButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshTapped))
         refreshBarButton.tintColor = .black
+    }
+}
+
+// MARK: - SettingsViewControllerDelegate
+
+extension MemeViewController: SettingsViewControllerDelegate {
+    func setup(count: String, subreddit: String) {
+        self.count = count
+        self.subreddit = subreddit
     }
 }

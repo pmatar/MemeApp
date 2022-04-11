@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7HR-EP-DL9">
-    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,9 +13,9 @@
             <objects>
                 <collectionViewController id="Exw-7t-qkj" customClass="MemeViewController" customModule="MemeApp" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="IFK-Aq-p5q">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="0.80974173116812032" blue="0.45627073892173453" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="0.96862745289999996" green="0.8078432083" blue="0.45490196350000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="50" minimumInteritemSpacing="50" id="nKq-2X-GHC">
                             <size key="itemSize" width="250" height="400"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -56,11 +57,90 @@
                             <outlet property="delegate" destination="Exw-7t-qkj" id="WR3-eg-ipx"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="Random Reddit Memes" id="1eb-va-u1p"/>
+                    <navigationItem key="navigationItem" title="Random Reddit Memes" id="1eb-va-u1p">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="gear" catalog="system" id="hOn-fU-j28">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <segue destination="CL5-yU-Eiv" kind="presentation" identifier="toSettingsVC" id="OdH-we-gaR"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="settingsBarButton" destination="hOn-fU-j28" id="AKb-3X-pjX"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2c4-L9-fQO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1545" y="66.549295774647888"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="P9c-w7-rDr">
+            <objects>
+                <viewController id="CL5-yU-Eiv" customClass="SettingsViewController" customModule="MemeApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZHk-KR-sgS">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B0a-Cg-Fbh">
+                                <rect key="frame" x="123.5" y="380" width="73" height="40.5"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Save">
+                                    <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="22"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="savePuttonPressed" destination="CL5-yU-Eiv" eventType="touchUpInside" id="n7O-F1-jNL"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Qeb-kO-UTT">
+                                <rect key="frame" x="16" y="70" width="288" height="260"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select memes count:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ozb-ql-Frz">
+                                        <rect key="frame" x="52" y="0.0" width="184.5" height="65"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HY3-IK-w7T">
+                                        <rect key="frame" x="19" y="65" width="250" height="65"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="65" id="SnV-bb-euy"/>
+                                            <constraint firstAttribute="width" constant="250" id="aeK-lL-dFU"/>
+                                        </constraints>
+                                    </pickerView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose subreddit:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gxS-cE-3DH">
+                                        <rect key="frame" x="63.5" y="130" width="161" height="65"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <pickerView tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v06-cL-PgU">
+                                        <rect key="frame" x="19" y="195" width="250" height="65"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="65" id="bCC-Pq-3Zf"/>
+                                            <constraint firstAttribute="width" constant="250" id="kKa-i5-UNG"/>
+                                        </constraints>
+                                    </pickerView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="4pj-we-HCy"/>
+                        <color key="backgroundColor" red="0.96862745289999996" green="0.8078432083" blue="0.45490196350000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="4pj-we-HCy" firstAttribute="trailing" secondItem="Qeb-kO-UTT" secondAttribute="trailing" constant="16" id="KFu-UB-aGF"/>
+                            <constraint firstItem="B0a-Cg-Fbh" firstAttribute="centerX" secondItem="ZHk-KR-sgS" secondAttribute="centerX" id="Nyb-fQ-xQS"/>
+                            <constraint firstItem="B0a-Cg-Fbh" firstAttribute="top" secondItem="Qeb-kO-UTT" secondAttribute="bottom" constant="50" id="V6N-w2-Ajg"/>
+                            <constraint firstItem="Qeb-kO-UTT" firstAttribute="leading" secondItem="4pj-we-HCy" secondAttribute="leading" constant="16" id="fYa-18-Jle"/>
+                            <constraint firstItem="Qeb-kO-UTT" firstAttribute="top" secondItem="4pj-we-HCy" secondAttribute="top" constant="70" id="w9m-et-f3X"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="memePicker" destination="HY3-IK-w7T" id="33W-Kd-H5A"/>
+                        <outlet property="subredditPicker" destination="v06-cL-PgU" id="lSz-JC-gaJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="r16-Z7-30y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2302.5" y="66.25"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4oN-N4-ArC">
@@ -68,7 +148,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7HR-EP-DL9" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="lLF-kg-kV8">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -81,4 +161,7 @@
             <point key="canvasLocation" x="786.95652173913049" y="66.964285714285708"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="gear" catalog="system" width="128" height="119"/>
+    </resources>
 </document>

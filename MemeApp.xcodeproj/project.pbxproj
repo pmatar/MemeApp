@@ -16,6 +16,7 @@
 		CF2CA99727FF7F87007CFAF0 /* MemesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2CA99627FF7F87007CFAF0 /* MemesData.swift */; };
 		CF2CA99927FF7F97007CFAF0 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2CA99827FF7F97007CFAF0 /* NetworkManager.swift */; };
 		CF2CA99B27FF84B1007CFAF0 /* MemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2CA99A27FF84B1007CFAF0 /* MemeCell.swift */; };
+		CF2CA9A128042B35007CFAF0 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2CA9A028042B35007CFAF0 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		CF2CA99627FF7F87007CFAF0 /* MemesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemesData.swift; sourceTree = "<group>"; };
 		CF2CA99827FF7F97007CFAF0 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		CF2CA99A27FF84B1007CFAF0 /* MemeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemeCell.swift; sourceTree = "<group>"; };
+		CF2CA9A028042B35007CFAF0 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				CF2CA99127FF7EBC007CFAF0 /* MemeViewController.swift */,
+				CF2CA9A028042B35007CFAF0 /* SettingsViewController.swift */,
 				CF2CA99A27FF84B1007CFAF0 /* MemeCell.swift */,
 			);
 			path = ViewControllers;
@@ -197,6 +200,7 @@
 			files = (
 				CF2CA99B27FF84B1007CFAF0 /* MemeCell.swift in Sources */,
 				CF2CA99727FF7F87007CFAF0 /* MemesData.swift in Sources */,
+				CF2CA9A128042B35007CFAF0 /* SettingsViewController.swift in Sources */,
 				CF2CA97727FF7D03007CFAF0 /* AppDelegate.swift in Sources */,
 				CF2CA99927FF7F97007CFAF0 /* NetworkManager.swift in Sources */,
 				CF2CA97927FF7D03007CFAF0 /* SceneDelegate.swift in Sources */,

@@ -17,16 +17,8 @@ class MemeViewController: UICollectionViewController {
     private var refreshBarButton: UIBarButtonItem!
     private var refreshBarButtonActivityIndicator: UIBarButtonItem!
     
-    private var count: String? {
-        didSet{
-        getMemes()
-        }
-    }
-    private var subreddit: String? {
-        didSet{
-        getMemes()
-        }
-    }
+    var count: String = "20"
+    var subreddit: String = "default"
 
     private var memes: [Meme] = [] {
         didSet{
@@ -157,5 +149,6 @@ extension MemeViewController: SettingsViewControllerDelegate {
     func setup(count: String, subreddit: String) {
         self.count = count
         self.subreddit = subreddit
+        self.getMemes()
     }
 }

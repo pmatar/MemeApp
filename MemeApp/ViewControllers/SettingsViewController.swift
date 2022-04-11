@@ -11,18 +11,20 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet weak var memePicker: UIPickerView!
     @IBOutlet weak var subredditPicker: UIPickerView!
     
-    var selectedCount: String = "20"
+    var selectedCount = ""
     var selectedSubreddit: String = "" {
-        didSet{
-            if selectedSubreddit == "default" {
-                selectedCount = "20"
+        didSet {
+            if selectedSubreddit == totalSubreddits[rowForDefaultSubreddit] {
+                selectedCount = String(NetworkManager.shared.defaultMemes)
             }
         }
     }
-
-    private var totalCount: [String] = []
-    private var totalSubreddits: [String] = []
-    private var selectedCountRow = 0
+    
+    private var totalCount = Array(1...50).map { String($0) }
+    private var totalSubreddits = NetworkManager.shared.defailtSubreddits
+    private var rowForDefaultCount = NetworkManager.shared.defaultMemes - 1
+    private var rowForDefaultSubreddit = NetworkManager.shared.defailtSubreddits.firstIndex(of: "default") ?? 0
+    private var defaultRow = 0
     
     weak var delegate: SettingsViewControllerDelegate?
     
@@ -33,17 +35,12 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         memePicker.dataSource = self
         subredditPicker.delegate = self
         subredditPicker.dataSource = self
-        
-        selectedCountRow = (Int(selectedCount) ?? 1) - 1
-        
-        totalCount = Array(1...50).map { String($0) }
-        totalSubreddits = ["memes", "dankmemes", "me_irl", "wholesomememes", "default"]
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        memePicker.selectRow(totalCount.firstIndex(of: selectedCount) ?? 19, inComponent: 0, animated: false)
-        subredditPicker.selectRow(totalSubreddits.firstIndex(of: selectedSubreddit) ?? 0, inComponent: 0, animated: true)
+        memePicker.selectRow(totalCount.firstIndex(of: selectedCount) ?? rowForDefaultCount, inComponent: 0, animated: false)
+        subredditPicker.selectRow(totalSubreddits.firstIndex(of: selectedSubreddit) ?? rowForDefaultSubreddit, inComponent: 0, animated: true)
     }
     
     @IBAction func savePuttonPressed() {
@@ -79,13 +76,15 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         switch pickerView {
         case memePicker:
             selectedCount = totalCount[row]
-            selectedCountRow = row
+            defaultRow = row
         default:
             selectedSubreddit = totalSubreddits[row]
-            if row == 4 {
-                memePicker.selectRow(19, inComponent: 0, animated: true)
+            if row == rowForDefaultSubreddit {
+                memePicker.selectRow(rowForDefaultCount, inComponent: 0, animated: true)
+                selectedCount = totalCount[rowForDefaultCount]
             } else {
-                memePicker.selectRow(selectedCountRow, inComponent: 0, animated: true)
+                memePicker.selectRow(defaultRow, inComponent: 0, animated: true)
+                selectedCount = totalCount[defaultRow]
             }
         }
     }

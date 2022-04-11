@@ -11,14 +11,16 @@ class NetworkManager {
     static let shared = NetworkManager()
     
     private let baseURL = "https://meme-api.herokuapp.com/gimme/"
-    private let defaultURL = "https://meme-api.herokuapp.com/gimme/20"
     
     private var cache = NSCache<NSString, NSData>()
+    
+    let defaultMemes = 20
+    let defailtSubreddits = ["memes", "dankmemes", "me_irl", "wholesomememes", "default"]
     
     private init() {}
     
     func fetchMemes(times count: String?, from subreddit: String?, completion: @escaping (Result<[Meme], NetworkError>) -> Void) {
-        var endpoint = defaultURL
+        var endpoint = "\(baseURL)\(defaultMemes)"
         
         if let count = count, let subreddit = subreddit, subreddit != "default" {
             endpoint = "\(baseURL)\(subreddit)/\(count)"
@@ -50,7 +52,7 @@ class NetworkManager {
             return
         }
         
-        guard let url = URL(string: model.url) else {
+        guard let url = URL(string: previewURL) else {
             completion(.failure(.missingImageURL))
             return }
         

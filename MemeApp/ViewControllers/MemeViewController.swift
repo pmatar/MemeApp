@@ -17,8 +17,8 @@ class MemeViewController: UICollectionViewController {
     private var refreshBarButton: UIBarButtonItem!
     private var refreshBarButtonActivityIndicator: UIBarButtonItem!
     
-    var count: String = "20"
-    var subreddit: String = "default"
+    private var count = String(NetworkManager.shared.defaultMemes)
+    private var subreddit = "default"
 
     private var memes: [Meme] = [] {
         didSet{

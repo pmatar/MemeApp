@@ -13,6 +13,10 @@ class MemeCell: UICollectionViewCell {
     
     var representedIdentifier: String = ""
     
+    override func prepareForReuse() {
+        memeImageView.image = nil
+    }
+    
     func configure(with data: Data) {
         memeImageView.image = UIImage(data: data)
         activityIndicator.stopAnimating()

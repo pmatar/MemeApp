@@ -20,6 +20,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        overrideUserInterfaceStyle = .light
         memePicker.delegate = self
         memePicker.dataSource = self
         subredditPicker.delegate = self
@@ -34,6 +35,15 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         selectedCount = count[memePicker.selectedRow(inComponent: 0)]
         selectedSubreddit = subreddit[subredditPicker.selectedRow(inComponent: 0)]
     }
+    
+    @IBAction func savePuttonPressed() {
+        if let selectedCount = selectedCount, let selectedSubreddit = selectedSubreddit {
+            delegate?.setup(count: selectedCount, subreddit: selectedSubreddit)
+        }
+        dismiss(animated: true)
+    }
+    
+    // MARK: - UIPickerViewDelegate, UIPickerViewDataSource
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         1
@@ -57,14 +67,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         switch pickerView {
         case memePicker: selectedCount = count[row]
         default: selectedSubreddit = subreddit[row]
-        }
-    }
-
-    @IBAction func savePuttonPressed() {
-        dismiss(animated: true) {
-            if let selectedCount = self.selectedCount, let selectedSubreddit = self.selectedSubreddit {
-                self.delegate?.setup(count: selectedCount, subreddit: selectedSubreddit)
-            }
         }
     }
     

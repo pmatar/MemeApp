@@ -55,7 +55,7 @@ class MemeViewController: UICollectionViewController {
         collectionView.setContentOffset(CGPoint.zero, animated:true)
     }
         
-    // MARK: -UICollectionViewDataSource
+    // MARK: - UICollectionViewDataSource
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return memes.count
@@ -72,7 +72,6 @@ class MemeViewController: UICollectionViewController {
         cell.representedIdentifier = representedIdentifier
         cell.activityIndicator.startAnimating()
         cell.activityIndicator.hidesWhenStopped = true
-        cell.memeImageView.image = nil
         cell.tag = indexPath.item
         
         NetworkManager.shared.downloadImage(from: meme) { result in

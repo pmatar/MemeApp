@@ -39,13 +39,18 @@ class NetworkManager {
                 let memeData = try JSONDecoder().decode(MemesData.self, from: data)
                 completion(.success(memeData.memes))
             } catch {
-                completion(.failure(.encodingFailed))
+                completion(.failure(.encodingJSONFailed))
             }
         }.resume()
     }
     
     func downloadImage(from model: Meme, completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        guard let url = URL(string: model.url) else {
+        guard let previewURL = model.preview.last else {
+            completion(.failure(.missingPreviewURL))
+            return
+        }
+        
+        guard let url = URL(string: previewURL) else {
             completion(.failure(.missingImageURL))
             return }
         
@@ -65,7 +70,7 @@ class NetworkManager {
                 self.cache.setObject(data as NSData, forKey: url.absoluteString as NSString)
                 completion(.success(data))
             } catch {
-                completion(.failure(.encodingFailed))
+                completion(.failure(.encodingImageFailed))
             }
         }.resume()
     }
@@ -75,8 +80,10 @@ extension NetworkManager {
     enum NetworkError : String, Error {
         case noJSONData = "JSON Data is nil."
         case noImageData = "Image Data is nil."
-        case encodingFailed = "Data encoding failed."
+        case encodingJSONFailed = "JSON encoding failed."
+        case encodingImageFailed = "Image encoding failed"
         case missingApiURL = "API URL is nil."
         case missingImageURL = "Image URL is nil."
+        case missingPreviewURL = "Preview URL is nil"
     }
 }

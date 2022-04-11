@@ -14,4 +14,5 @@ struct MemesData: Decodable {
 struct Meme: Decodable {
     let url: String
     let title: String
+    let preview: [String]
 }

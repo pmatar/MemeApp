@@ -39,7 +39,9 @@ class NetworkManager {
             
             do {
                 let memeData = try JSONDecoder().decode(MemesData.self, from: data)
-                completion(.success(memeData.memes))
+                DispatchQueue.main.async {
+                    completion(.success(memeData.memes))
+                }
             } catch {
                 completion(.failure(.encodingJSONFailed))
             }
@@ -57,7 +59,9 @@ class NetworkManager {
             return }
         
         if let cachedImage = cache.object(forKey: url.absoluteString as NSString){
-            completion(.success(cachedImage as Data))
+            DispatchQueue.main.async {
+                completion(.success(cachedImage as Data))
+            }
             return
         }
         
@@ -70,7 +74,9 @@ class NetworkManager {
             do {
                 let data = try Data(contentsOf: imageURL)
                 self.cache.setObject(data as NSData, forKey: url.absoluteString as NSString)
-                completion(.success(data))
+                DispatchQueue.main.async {
+                    completion(.success(data))
+                }
             } catch {
                 completion(.failure(.encodingImageFailed))
             }

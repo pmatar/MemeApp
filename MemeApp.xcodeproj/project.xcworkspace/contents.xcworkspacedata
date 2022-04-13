@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/paulmatar/Desktop/Swiftbook/Course 2/Lesson 2.10/DuckApp/MemeApp.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>

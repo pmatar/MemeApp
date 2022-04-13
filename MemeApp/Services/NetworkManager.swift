@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class NetworkManager {
     static let shared = NetworkManager()
@@ -19,37 +20,37 @@ class NetworkManager {
     
     private init() {}
     
-    func fetchMemes(times count: String?, from subreddit: String?, completion: @escaping (Result<[Meme], NetworkError>) -> Void) {
-        var endpoint = "\(baseURL)\(defaultMemes)"
-        
-        if let count = count, let subreddit = subreddit, subreddit != "default" {
-            endpoint = "\(baseURL)\(subreddit)/\(count)"
-        }
-        
-        guard let url = URL(string: endpoint) else {
-            completion(.failure(.missingApiURL))
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            guard let data = data, error == nil else {
-                completion(.failure(.noJSONData))
-                return
-            }
-            
-            do {
-                let memeData = try JSONDecoder().decode(MemesData.self, from: data)
-                DispatchQueue.main.async {
-                    completion(.success(memeData.memes))
-                }
-            } catch {
-                completion(.failure(.encodingJSONFailed))
-            }
-        }.resume()
-    }
+//    func fetchMemes(times count: String?, from subreddit: String?, completion: @escaping (Result<[Meme], NetworkError>) -> Void) {
+//        var endpoint = "\(baseURL)\(defaultMemes)"
+//
+//        if let count = count, let subreddit = subreddit, subreddit != "default" {
+//            endpoint = "\(baseURL)\(subreddit)/\(count)"
+//        }
+//
+//        guard let url = URL(string: endpoint) else {
+//            completion(.failure(.missingApiURL))
+//            return
+//        }
+//
+//        URLSession.shared.dataTask(with: url) { data, _, error in
+//            guard let data = data, error == nil else {
+//                completion(.failure(.noJSONData))
+//                return
+//            }
+//
+//            do {
+//                let memeData = try JSONDecoder().decode(MemesData.self, from: data)
+//                DispatchQueue.main.async {
+//                    completion(.success(memeData.memes))
+//                }
+//            } catch {
+//                completion(.failure(.encodingJSONFailed))
+//            }
+//        }.resume()
+//    }
     
     func downloadImage(from model: Meme, completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        guard let previewURL = model.preview.last else {
+        guard let previewURL = model.preview?.last else {
             completion(.failure(.missingPreviewURL))
             return
         }
@@ -81,6 +82,26 @@ class NetworkManager {
                 completion(.failure(.encodingImageFailed))
             }
         }.resume()
+    }
+    
+    func fetchMemesWithAlamofire(times count: String?, from subreddit: String?, completion: @escaping (Result<[Meme], NetworkError>) -> Void) {
+        var endpoint = "\(baseURL)\(defaultMemes)"
+        
+        if let count = count, let subreddit = subreddit, subreddit != "default" {
+            endpoint = "\(baseURL)\(subreddit)/\(count)"
+        }
+        
+        AF.request(endpoint)
+            .validate()
+            .responseJSON { dataResponse in
+                switch dataResponse.result {
+                case .success(let value):
+                    let memes = Meme.getMemes(from: value)
+                    completion(.success(memes))
+                case .failure(let error):
+                    print(error)
+                }
+            }
     }
 }
 

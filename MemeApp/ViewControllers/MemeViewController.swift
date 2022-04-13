@@ -22,7 +22,6 @@ class MemeViewController: UICollectionViewController {
 
     private var memes: [Meme] = [] {
         didSet{
-            collectionView.reloadData()
             changeBarButton()
         }
     }
@@ -60,7 +59,7 @@ class MemeViewController: UICollectionViewController {
         
         let meme = memes[indexPath.item]
         
-        let representedIdentifier = meme.title
+        let representedIdentifier = meme.title ?? ""
         cell.representedIdentifier = representedIdentifier
         cell.activityIndicator.startAnimating()
         cell.activityIndicator.hidesWhenStopped = true
@@ -106,12 +105,13 @@ extension MemeViewController: UICollectionViewDelegateFlowLayout {
 
 extension MemeViewController {
     private func getMemes() {
-        NetworkManager.shared.fetchMemes(times: count, from: subreddit) { [weak self] result in
+        NetworkManager.shared.fetchMemesWithAlamofire(times: count, from: subreddit) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
             case let .success(memes):
                 self.memes = memes
+                self.collectionView.reloadData()
             case let .failure(error):
                 print(error.rawValue)
             }

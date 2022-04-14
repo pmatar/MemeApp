@@ -23,6 +23,7 @@ class MemeViewController: UICollectionViewController {
     private var memes: [Meme] = [] {
         didSet{
             changeBarButton()
+            collectionView.setContentOffset(CGPoint.init(x: 0, y: -100), animated:true)
         }
     }
     
@@ -43,7 +44,6 @@ class MemeViewController: UICollectionViewController {
     @objc func refreshTapped() {
         navigationItem.rightBarButtonItem = refreshBarButtonActivityIndicator
         getMemes()
-        collectionView.setContentOffset(CGPoint.zero, animated:true)
     }
         
     // MARK: - UICollectionViewDataSource
@@ -72,7 +72,7 @@ class MemeViewController: UICollectionViewController {
                     cell.configure(with: image)
                 }
             case let .failure(error):
-                print(error.rawValue)
+                print(error)
             }
         }
         return cell
@@ -105,7 +105,7 @@ extension MemeViewController: UICollectionViewDelegateFlowLayout {
 
 extension MemeViewController {
     private func getMemes() {
-        NetworkManager.shared.fetchMemesWithAlamofire(times: count, from: subreddit) { [weak self] result in
+        NetworkManager.shared.fetchMemes(times: count, from: subreddit) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
@@ -113,7 +113,7 @@ extension MemeViewController {
                 self.memes = memes
                 self.collectionView.reloadData()
             case let .failure(error):
-                print(error.rawValue)
+                print(error)
             }
         }
     }

@@ -20,99 +20,42 @@ class NetworkManager {
     
     private init() {}
     
-//    func fetchMemes(times count: String?, from subreddit: String?, completion: @escaping (Result<[Meme], NetworkError>) -> Void) {
-//        var endpoint = "\(baseURL)\(defaultMemes)"
-//
-//        if let count = count, let subreddit = subreddit, subreddit != "default" {
-//            endpoint = "\(baseURL)\(subreddit)/\(count)"
-//        }
-//
-//        guard let url = URL(string: endpoint) else {
-//            completion(.failure(.missingApiURL))
-//            return
-//        }
-//
-//        URLSession.shared.dataTask(with: url) { data, _, error in
-//            guard let data = data, error == nil else {
-//                completion(.failure(.noJSONData))
-//                return
-//            }
-//
-//            do {
-//                let memeData = try JSONDecoder().decode(MemesData.self, from: data)
-//                DispatchQueue.main.async {
-//                    completion(.success(memeData.memes))
-//                }
-//            } catch {
-//                completion(.failure(.encodingJSONFailed))
-//            }
-//        }.resume()
-//    }
-    
-    func downloadImage(from model: Meme, completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        guard let previewURL = model.preview?.last else {
-            completion(.failure(.missingPreviewURL))
-            return
-        }
-        
-        guard let url = URL(string: previewURL) else {
-            completion(.failure(.missingImageURL))
-            return }
-        
-        if let cachedImage = cache.object(forKey: url.absoluteString as NSString){
-            DispatchQueue.main.async {
-                completion(.success(cachedImage as Data))
-            }
-            return
-        }
-        
-        URLSession.shared.downloadTask(with: url) { imageURL, _, error in
-            guard let imageURL = imageURL, error == nil else {
-                completion(.failure(.missingImageURL))
-                return
-            }
-            
-            do {
-                let data = try Data(contentsOf: imageURL)
-                self.cache.setObject(data as NSData, forKey: url.absoluteString as NSString)
-                DispatchQueue.main.async {
-                    completion(.success(data))
-                }
-            } catch {
-                completion(.failure(.encodingImageFailed))
-            }
-        }.resume()
-    }
-    
-    func fetchMemesWithAlamofire(times count: String?, from subreddit: String?, completion: @escaping (Result<[Meme], NetworkError>) -> Void) {
+    func fetchMemes(times count: String?, from subreddit: String?, completion: @escaping (Result<[Meme], AFError>) -> Void) {
         var endpoint = "\(baseURL)\(defaultMemes)"
         
         if let count = count, let subreddit = subreddit, subreddit != "default" {
             endpoint = "\(baseURL)\(subreddit)/\(count)"
         }
         
-        AF.request(endpoint)
-            .validate()
-            .responseJSON { dataResponse in
-                switch dataResponse.result {
-                case .success(let value):
-                    let memes = Meme.getMemes(from: value)
-                    completion(.success(memes))
-                case .failure(let error):
-                    print(error)
-                }
+        AF.request(endpoint).validate().responseDecodable(of: MemesData.self) { dataResponse in
+            switch dataResponse.result {
+            case .success(let value):
+                let memes = value.memes
+                completion(.success(memes))
+            case .failure(let error):
+                completion(.failure(error))
             }
+        }
     }
-}
-
-extension NetworkManager {
-    enum NetworkError : String, Error {
-        case noJSONData = "JSON Data is nil."
-        case noImageData = "Image Data is nil."
-        case encodingJSONFailed = "JSON encoding failed."
-        case encodingImageFailed = "Image encoding failed"
-        case missingApiURL = "API URL is nil."
-        case missingImageURL = "Image URL is nil."
-        case missingPreviewURL = "Preview URL is nil"
+    
+    func downloadImage(from model: Meme, completion: @escaping (Result<Data, AFError>) -> Void) {
+        guard let previewURL = model.preview?.last else {
+            return
+        }
+        
+        if let cachedImage = cache.object(forKey: previewURL as NSString){
+            completion(.success(cachedImage as Data))
+            return
+        }
+        
+        AF.download(previewURL).validate().responseData { responseData in
+            switch responseData.result {
+            case .success(let data):
+                self.cache.setObject(data as NSData, forKey: previewURL as NSString)
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
 }

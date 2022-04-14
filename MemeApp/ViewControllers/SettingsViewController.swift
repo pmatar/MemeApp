@@ -42,7 +42,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     @IBAction func savePuttonPressed() {
-        delegate?.setup(count: selectedCount, subreddit: selectedSubreddit)
+        StorageManager.shared.save(count: selectedCount, subreddit: selectedSubreddit)
+        delegate?.setup(count: selectedCount, subreddit: selectedSubreddit)        
         dismiss(animated: true)
     }
     

@@ -39,11 +39,9 @@ class NetworkManager {
     }
     
     func downloadImage(from model: Meme, completion: @escaping (Result<Data, AFError>) -> Void) {
-        guard let previewURL = model.preview?.last else {
-            return
-        }
+        guard let previewURL = model.preview?.last else { return }
         
-        if let cachedImage = cache.object(forKey: previewURL as NSString){
+        if let cachedImage = cache.object(forKey: previewURL as NSString) {
             completion(.success(cachedImage as Data))
             return
         }

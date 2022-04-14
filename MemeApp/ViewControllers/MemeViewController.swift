@@ -29,6 +29,7 @@ class MemeViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setSavedSettings()
         getMemes()
         setupBarButtons()
         setupUI()
@@ -41,7 +42,7 @@ class MemeViewController: UICollectionViewController {
         settingsVC.selectedSubreddit = subreddit
     }
     
-    @objc func refreshTapped() {
+    @objc private func refreshTapped() {
         navigationItem.rightBarButtonItem = refreshBarButtonActivityIndicator
         getMemes()
     }
@@ -136,6 +137,17 @@ extension MemeViewController {
         refreshBarButtonActivityIndicator = UIBarButtonItem(customView: activityIndicator)
         refreshBarButton = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshTapped))
         refreshBarButton.tintColor = .black
+    }
+    
+    private func setSavedSettings(){
+        let savedSettings = StorageManager.shared.fetchSettings()
+        
+        if let savedSubreddit = savedSettings["subreddit"] {
+            subreddit = savedSubreddit
+        }
+        if let savedCount = savedSettings["count"] {
+            count = savedCount
+        }
     }
 }
 

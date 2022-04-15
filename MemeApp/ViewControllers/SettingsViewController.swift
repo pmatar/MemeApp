@@ -12,13 +12,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet weak var subredditPicker: UIPickerView!
     
     var selectedCount = ""
-    var selectedSubreddit = "" {
-        didSet {
-            if selectedSubreddit == totalSubreddits[rowForDefaultSubreddit] {
-                selectedCount = String(NetworkManager.shared.defaultMemes)
-            }
-        }
-    }
+    var selectedSubreddit = ""
     
     weak var delegate: SettingsViewControllerDelegate?
     

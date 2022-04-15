@@ -29,10 +29,10 @@ class MemeViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setSavedSettings()
+        setupUserSettings()
         getMemes()
         setupBarButtons()
-        setupUI()
+        setupNavigationBar()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -74,6 +74,8 @@ class MemeViewController: UICollectionViewController {
                 }
             case let .failure(error):
                 print(error)
+                cell.memeImageView.image = UIImage(named: "noimage")
+                cell.activityIndicator.stopAnimating()
             }
         }
         return cell
@@ -82,11 +84,9 @@ class MemeViewController: UICollectionViewController {
     // MARK: - UICollectionViewDelegate
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // image to share
         guard let selectedCell = collectionView.cellForItem(at: indexPath) as? MemeCell else { return }
         guard let image = selectedCell.memeImageView.image else { return }
         
-        // set up activity view controller
         let imageToShare = [image]
         let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
@@ -125,7 +125,7 @@ extension MemeViewController {
         }
     }
     
-    private func setupUI(){
+    private func setupNavigationBar(){
         navigationController?.navigationBar.barTintColor = collectionView.backgroundColor
         navigationItem.rightBarButtonItem = refreshBarButton
         navigationController?.overrideUserInterfaceStyle = .light
@@ -139,14 +139,14 @@ extension MemeViewController {
         refreshBarButton.tintColor = .black
     }
     
-    private func setSavedSettings(){
-        let savedSettings = StorageManager.shared.fetchSettings()
+    private func setupUserSettings(){
+        let userSettings = StorageManager.shared.fetchSettings()
         
-        if let savedSubreddit = savedSettings["subreddit"] {
-            subreddit = savedSubreddit
+        if let userSubreddit = userSettings["subreddit"] {
+            subreddit = userSubreddit
         }
-        if let savedCount = savedSettings["count"] {
-            count = savedCount
+        if let userCount = userSettings["count"] {
+            count = userCount
         }
     }
 }

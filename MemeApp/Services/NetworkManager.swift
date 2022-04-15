@@ -15,7 +15,7 @@ class NetworkManager {
     
     private var cache = NSCache<NSString, NSData>()
     
-    let defaultMemes = 20
+    let defaultMemes = 25
     let defailtSubreddits = ["memes", "dankmemes", "me_irl", "wholesomememes", "default"]
     
     private init() {}
@@ -25,6 +25,8 @@ class NetworkManager {
         
         if let count = count, let subreddit = subreddit, subreddit != "default" {
             endpoint = "\(baseURL)\(subreddit)/\(count)"
+        } else if let count = count {
+            endpoint = "\(baseURL)\(count)"
         }
         
         AF.request(endpoint).validate().responseDecodable(of: MemesData.self) { dataResponse in

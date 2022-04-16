@@ -12,14 +12,13 @@ protocol SettingsViewControllerDelegate: AnyObject {
 }
 
 class MemeViewController: UICollectionViewController {
-    
     @IBOutlet weak var settingsBarButton: UIBarButtonItem!
+    
     private var refreshBarButton: UIBarButtonItem!
     private var refreshBarButtonActivityIndicator: UIBarButtonItem!
     
     private var count = String(NetworkManager.shared.defaultMemes)
     private var subreddit = "default"
-
     private var memes: [Meme] = [] {
         didSet{
             changeBarButton()
@@ -98,7 +97,15 @@ class MemeViewController: UICollectionViewController {
 
 extension MemeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: UIScreen.main.bounds.width - 40, height: 450)
+        CGSize(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height * 0.5)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        UIScreen.main.bounds.height * 0.1
     }
 }
 

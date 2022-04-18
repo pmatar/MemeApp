@@ -13,7 +13,7 @@ class NetworkManager {
     
     private let baseURL = "https://meme-api.herokuapp.com/gimme/"
     
-    private var cache = NSCache<NSString, NSData>()
+    private let cache = NSCache<NSString, NSData>()
     
     let defaultMemes = 25
     let defailtSubreddits = ["memes", "dankmemes", "me_irl", "wholesomememes", "default"]

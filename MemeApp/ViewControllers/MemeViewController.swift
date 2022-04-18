@@ -22,7 +22,7 @@ class MemeViewController: UICollectionViewController {
     private var memes: [Meme] = [] {
         didSet{
             changeBarButton()
-            collectionView.setContentOffset(CGPoint.init(x: 0, y: -100), animated:true)
+            collectionView.setContentOffset(CGPoint.init(x: 0, y: -100), animated: true)
         }
     }
     

@@ -73,7 +73,7 @@ class MemeViewController: UICollectionViewController {
                 }
             case let .failure(error):
                 print(error)
-                cell.memeImageView.image = UIImage(named: "noimage")
+                cell.memeImageView.image = UIImage(named: "noImage")
                 cell.activityIndicator.stopAnimating()
             }
         }
@@ -88,8 +88,8 @@ class MemeViewController: UICollectionViewController {
         
         let imageToShare = [image]
         let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view
-        self.present(activityViewController, animated: true, completion: nil)
+        activityViewController.popoverPresentationController?.sourceView = view
+        present(activityViewController, animated: true, completion: nil)
     }
 }
 
@@ -113,13 +113,12 @@ extension MemeViewController: UICollectionViewDelegateFlowLayout {
 
 extension MemeViewController {
     private func getMemes() {
-        NetworkManager.shared.fetchMemes(times: count, from: subreddit) { [weak self] result in
-            guard let self = self else { return }
+        NetworkManager.shared.fetchMemes(times: count, from: subreddit) { [unowned self] result in
             
             switch result {
-            case let .success(memes):
-                self.memes = memes
-                self.collectionView.reloadData()
+            case let .success(resultMemes):
+                memes = resultMemes
+                collectionView.reloadData()
             case let .failure(error):
                 print(error)
             }
@@ -164,6 +163,6 @@ extension MemeViewController: SettingsViewControllerDelegate {
     func setup(count: String, subreddit: String) {
         self.count = count
         self.subreddit = subreddit
-        self.getMemes()
+        getMemes()
     }
 }

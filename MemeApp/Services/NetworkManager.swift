@@ -16,7 +16,7 @@ class NetworkManager {
     private let cache = NSCache<NSString, NSData>()
     
     let defaultMemes = 25
-    let defailtSubreddits = ["memes", "dankmemes", "me_irl", "wholesomememes", "default"]
+    let defaultSubreddits = ["memes", "dankmemes", "me_irl", "wholesomememes", "default"]
     
     private init() {}
     

@@ -22,7 +22,7 @@ class MemeViewController: UICollectionViewController {
     private var memes: [Meme] = [] {
         didSet{
             changeBarButton()
-            collectionView.setContentOffset(CGPoint.init(x: 0, y: -100), animated: true)
+            backToTop()
         }
     }
     
@@ -131,21 +131,28 @@ extension MemeViewController {
         }
     }
     
-    private func setupNavigationBar(){
+    private func setupNavigationBar() {
         let color = collectionView.backgroundColor
         navigationItem.rightBarButtonItem = refreshBarButton
         navigationController?.overrideUserInterfaceStyle = .light
-        let attrs = [
-            NSAttributedString.Key.font: UIFont(name: "Chalkduster", size: 15)!
-        ]
+
         let appearance = UINavigationBarAppearance()
-        appearance.titleTextAttributes = attrs
         appearance.backgroundColor = color
+        
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        let button = UIButton()
+        button.addTarget(self, action: #selector(backToTop), for: .touchUpInside)
+        button.setTitle("Random Reddit Memes", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Chalkduster", size: 15)
+        button.sizeToFit()
+
+        navigationItem.titleView = button
     }
     
-    private func setupBarButtons(){
+    private func setupBarButtons() {
         let activityIndicator = UIActivityIndicatorView.init(style: .medium)
         activityIndicator.startAnimating()
         refreshBarButtonActivityIndicator = UIBarButtonItem(customView: activityIndicator)
@@ -153,7 +160,7 @@ extension MemeViewController {
         refreshBarButton.tintColor = .black
     }
     
-    private func setupUserSettings(){
+    private func setupUserSettings() {
         let userSettings = StorageManager.shared.fetchSettings()
         
         if let userSubreddit = userSettings["subreddit"] {
@@ -162,6 +169,11 @@ extension MemeViewController {
         if let userCount = userSettings["count"] {
             count = userCount
         }
+    }
+    
+    @objc private func backToTop() {
+        collectionView.setContentOffset(CGPoint(x: 0, y: -collectionView.safeAreaInsets.top),
+                                        animated: true)
     }
 }
 

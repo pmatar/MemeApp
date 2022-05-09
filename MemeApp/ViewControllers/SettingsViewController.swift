@@ -17,9 +17,9 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     weak var delegate: SettingsViewControllerDelegate?
     
     private var totalCount = Array(1...50).map { String($0) }
-    private var totalSubreddits = NetworkManager.shared.defailtSubreddits
+    private var totalSubreddits = NetworkManager.shared.defaultSubreddits
     private var rowForDefaultCount = NetworkManager.shared.defaultMemes - 1
-    private var rowForDefaultSubreddit = NetworkManager.shared.defailtSubreddits.firstIndex(of: "default") ?? 0
+    private var rowForDefaultSubreddit = NetworkManager.shared.defaultSubreddits.firstIndex(of: "default") ?? 0
     
     override func viewDidLoad() {
         super.viewDidLoad()

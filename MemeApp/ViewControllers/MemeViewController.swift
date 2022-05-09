@@ -132,9 +132,17 @@ extension MemeViewController {
     }
     
     private func setupNavigationBar(){
-        navigationController?.navigationBar.barTintColor = collectionView.backgroundColor
+        let color = collectionView.backgroundColor
         navigationItem.rightBarButtonItem = refreshBarButton
         navigationController?.overrideUserInterfaceStyle = .light
+        let attrs = [
+            NSAttributedString.Key.font: UIFont(name: "Chalkduster", size: 15)!
+        ]
+        let appearance = UINavigationBarAppearance()
+        appearance.titleTextAttributes = attrs
+        appearance.backgroundColor = color
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     private func setupBarButtons(){
